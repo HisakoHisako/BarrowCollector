@@ -1,5 +1,7 @@
 export type AppConfig = {
-  // Pass the full Discord incoming webhook URL.
-  // If null/undefined, the endpoint will return 500 (misconfigured).
-  discordWebhookUrl?: string | null;
+  // Discord Incoming Webhook URL for channel=1 (GLOBAL)
+  discordWebhookGlobal?: string | null;
+
+  // Discord Incoming Webhook URL for channel=2 (LOCAL)
+  discordWebhookLocal?: string | null;
 };

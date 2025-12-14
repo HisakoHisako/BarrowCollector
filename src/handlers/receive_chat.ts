@@ -61,14 +61,19 @@ export async function handleReceiveChat(
     channel,
   };
 
-  const webhookUrl = config.discordWebhookUrl;
+  const webhookUrl = channel === 1
+    ? config.discordWebhookGlobal
+    : channel === 2
+    ? config.discordWebhookLocal
+    : null;
 
   if (!webhookUrl) {
     // This is a real server misconfig for events we *do* want to forward.
     return c.json(
       {
         ok: false,
-        error: "Server misconfigured: DISCORD_WEBHOOK_URL is not set",
+        error: "Server misconfigured: Discord webhook is not set for this channel",
+        channel,
         received: params,
       },
       500,

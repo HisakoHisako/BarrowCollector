@@ -13,7 +13,10 @@ function buildValidUrl(channel = "2"): URL {
 }
 
 Deno.test("GET /api/receive-chat/ ignores requests that don't match chat shape", async () => {
-  const app = createApp({ discordWebhookUrl: "http://mock.local/webhook" });
+  const app = createApp({
+    discordWebhookGlobal: "http://mock.local/webhook/global",
+    discordWebhookLocal: "http://mock.local/webhook/local",
+  });
 
   const res = await app.fetch(new Request("http://localhost/api/receive-chat/"));
 
@@ -24,7 +27,7 @@ Deno.test("GET /api/receive-chat/ ignores requests that don't match chat shape",
 });
 
 Deno.test("GET /api/receive-chat/ errors if webhook is missing (for accepted channels)", async () => {
-  const app = createApp({ discordWebhookUrl: null });
+  const app = createApp({ discordWebhookGlobal: null, discordWebhookLocal: null });
 
   const res = await app.fetch(new Request(buildValidUrl("1")));
 
@@ -32,7 +35,7 @@ Deno.test("GET /api/receive-chat/ errors if webhook is missing (for accepted cha
 });
 
 Deno.test("GET /api/receive-chat/ ignores unaccepted channels", async () => {
-  const app = createApp({ discordWebhookUrl: null });
+  const app = createApp({ discordWebhookGlobal: null, discordWebhookLocal: null });
 
   const res = await app.fetch(new Request(buildValidUrl("3")));
 
@@ -44,7 +47,10 @@ Deno.test("GET /api/receive-chat/ ignores unaccepted channels", async () => {
 });
 
 Deno.test("GET /api/receive-chat/ posts to Discord webhook for channel 1/2", async () => {
-  const app = createApp({ discordWebhookUrl: "http://mock.local/webhook" });
+  const app = createApp({
+    discordWebhookGlobal: "http://mock.local/webhook/global",
+    discordWebhookLocal: "http://mock.local/webhook/local",
+  });
   const originalFetch = globalThis.fetch;
 
   try {

@@ -1,23 +1,33 @@
-let lastPayload: unknown = null;
+const lastPayloadByPath = new Map<string, unknown>();
 
 Deno.serve({ port: 8787 }, async (req) => {
   const url = new URL(req.url);
 
-  if (req.method === "POST" && url.pathname === "/webhook") {
+  if (req.method === "POST" && url.pathname.startsWith("/webhook")) {
+    let payload: unknown = null;
     try {
-      lastPayload = await req.json();
+      payload = await req.json();
     } catch {
-      lastPayload = await req.text().catch(() => null);
+      payload = await req.text().catch(() => null);
     }
 
-    console.log("[mock-discord] received:", lastPayload);
+    lastPayloadByPath.set(url.pathname, payload);
+    lastPayloadByPath.set("/webhook", payload);
+
+    console.log(`[mock-discord] ${url.pathname} received:`, payload);
 
     // Match Discord webhook behavior: 204 No Content on success.
     return new Response(null, { status: 204 });
   }
 
   if (req.method === "GET" && url.pathname === "/last") {
-    return Response.json({ lastPayload }, { status: 200 });
+    return Response.json(
+      {
+        lastPayload: lastPayloadByPath.get("/webhook") ?? null,
+        lastPayloadByPath: Object.fromEntries(lastPayloadByPath.entries()),
+      },
+      { status: 200 },
+    );
   }
 
   return new Response("Not found", { status: 404 });

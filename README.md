@@ -5,7 +5,7 @@ A tiny Deno + Hono API that receives Conan Exiles chat events via query-string G
 - Exposes `GET /api/receive-chat/`
 - Expects chat events as query params (no body)
 - Only forwards messages where `channel` is `1` or `2`
-- Posts to Discord via `DISCORD_WEBHOOK_URL`
+- Posts to Discord via `DISCORD_WEBHOOK_GLOBAL` / `DISCORD_WEBHOOK_LOCAL`
 - Prevents Discord mention abuse with `allowed_mentions: { parse: [] }`
 
 ## Endpoint
@@ -29,7 +29,8 @@ Behavior:
 Copy `.env.example` to `.env` and edit as needed.
 
 Minimum required:
-- `DISCORD_WEBHOOK_URL`
+- `DISCORD_WEBHOOK_GLOBAL`
+- `DISCORD_WEBHOOK_LOCAL`
 
 ### 2) Run the mock Discord server (optional)
 This is useful to inspect what would be sent to Discord.
@@ -46,8 +47,9 @@ This is useful to inspect what would be sent to Discord.
 
 ## Deployment (Deno Deploy - New Platform)
 1. Set the entrypoint to `main.ts`.
-2. Set the environment variable:
-   - `DISCORD_WEBHOOK_URL` = the full Discord Incoming Webhook URL
+2. Set the environment variables:
+   - `DISCORD_WEBHOOK_GLOBAL` = Discord Incoming Webhook URL for channel=1 (GLOBAL)
+   - `DISCORD_WEBHOOK_LOCAL` = Discord Incoming Webhook URL for channel=2 (LOCAL)
 3. Deploy.
 
 ## Notes

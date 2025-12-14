@@ -1,7 +1,8 @@
 import { createApp } from "./src/app.ts";
 
 const app = createApp({
-  discordWebhookUrl: Deno.env.get("DISCORD_WEBHOOK_URL") ?? null,
+  discordWebhookGlobal: Deno.env.get("DISCORD_WEBHOOK_GLOBAL") ?? null,
+  discordWebhookLocal: Deno.env.get("DISCORD_WEBHOOK_LOCAL") ?? null,
 });
 
 if (import.meta.main) {
