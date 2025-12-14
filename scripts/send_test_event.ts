@@ -1,15 +1,14 @@
 const baseUrl = Deno.env.get("BARROW_BASE_URL") ?? "http://localhost:8000";
 
 const url = new URL("/api/receive-chat/", baseUrl);
-url.searchParams.set("date", "x");
-url.searchParams.set("steamid", "y");
-url.searchParams.set("charname", "z");
-url.searchParams.set("actName", "a");
-url.searchParams.set("eventId", "b");
-url.searchParams.set("eventCategory", "c");
-url.searchParams.set("eventType", "d");
+url.searchParams.set("sender", "Malice");
+url.searchParams.set("character", "Malice");
+url.searchParams.set("message", "HAHA MER LOCAL!");
+url.searchParams.set("radius", "Say");
+url.searchParams.set("location", "-172995 244168 3635");
+url.searchParams.set("channel", "2");
 
-const res = await fetch(url, { method: "POST" });
+const res = await fetch(url, { method: "GET" });
 const text = await res.text();
 
 console.log(`[send-test] ${res.status} ${res.statusText}`);

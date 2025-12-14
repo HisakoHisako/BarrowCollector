@@ -1,9 +1,8 @@
 export type ReceiveChatParams = {
-  date: string;
-  steamid: string;
-  charname: string;
-  actName: string;
-  eventId: string;
-  eventCategory: string;
-  eventType: string;
+  sender: string;
+  character: string;
+  message: string;
+  radius: string;
+  location: string;
+  channel: number;
 };

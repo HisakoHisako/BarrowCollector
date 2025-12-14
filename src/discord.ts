@@ -7,11 +7,12 @@ type DiscordWebhookPayload = {
 };
 
 export function formatDiscordMessage(params: ReceiveChatParams): DiscordWebhookPayload {
+  const channelLabel = params.channel === 1 ? "GLOBAL" : params.channel === 2 ? "LOCAL" : String(params.channel);
+
   const lines = [
-    `**${params.eventCategory} / ${params.eventType}** (eventId: ${params.eventId})`,
-    `act: ${params.actName}`,
-    `char: ${params.charname} (steamid: ${params.steamid})`,
-    `date: ${params.date}`,
+    `**${channelLabel}** (${params.radius})`,
+    `**${params.character}**: ${params.message}`,
+    `location: ${params.location}`,
   ];
 
   return {
