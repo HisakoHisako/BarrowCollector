@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-net --env-file --allow-env=BARROW_BASE_URL,DISCORD_WEBHOOK_URL main.ts",
+    "test": "deno test --allow-net --env-file --allow-env=BARROW_BASE_URL,DISCORD_WEBHOOK_URL",
+    "mock-discord": "deno run --watch --env-file --allow-net mock_discord.ts",
+    "send-test": "deno run --allow-net --env-file --allow-env=BARROW_BASE_URL scripts/send_test_event.ts",
+    "pulse": "deno run --allow-net --env-file scripts/pulse.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "hono": "npm:hono@4"
+  }
+}
